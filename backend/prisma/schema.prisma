@@ -3,7 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Session {
@@ -12,6 +13,9 @@ model Session {
   isActive     Boolean       @default(true)
   participants Participant[]
   messages     ChatMessage[]
+  recordingUrl String?
+  eventLogs    EventLog[]
+  chatFiles    ChatFile[]
 }
 
 model Participant {
@@ -31,5 +35,27 @@ model ChatMessage {
   senderId  String
   senderName String?
   text      String
+  timestamp DateTime @default(now())
+}
+
+model ChatFile {
+  id         String   @id @default(uuid())
+  sessionId  String
+  session    Session  @relation(fields: [sessionId], references: [id])
+  name       String
+  url        String
+  size       Int
+  mimeType   String
+  senderId   String
+  senderName String?
+  uploadedAt DateTime @default(now())
+}
+
+model EventLog {
+  id        String   @id @default(uuid())
+  sessionId String
+  session   Session  @relation(fields: [sessionId], references: [id])
+  type      String   // "JOIN", "LEAVE", "DISCONNECT", "RECONNECT", "RECORDING_START", "RECORDING_STOP", "END_SESSION"
+  message   String
   timestamp DateTime @default(now())
 }

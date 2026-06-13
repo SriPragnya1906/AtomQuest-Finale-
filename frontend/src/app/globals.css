@@ -4,11 +4,11 @@
   --font-sans: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
   --font-poppins: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   
-  --color-primary: #0F172A;
-  --color-secondary: #334155;
-  --color-cta: #0369A1;
-  --color-background: #F8FAFC;
-  --color-text: #020617;
+  --color-primary: #0f172a;
+  --color-secondary: #64748b;
+  --color-cta: #0284c7;
+  --color-background: #f8fafc;
+  --color-text: #0f172a;
 }
 
 @layer base {
@@ -19,5 +19,29 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-poppins);
+  }
+}
+
+/* LiveKit theme overrides for light mode */
+@layer components {
+  [data-lk-theme="default"] {
+    --lk-bg: #f1f5f9;
+    --lk-bg2: #ffffff;
+    --lk-control-bg: #e2e8f0;
+    --lk-control-hover-bg: #cbd5e1;
+    --lk-fg: #0f172a;
+    --lk-border-color: #cbd5e1;
+  }
+
+  /* Smooth scrollbar for chat */
+  .lk-chat-messages::-webkit-scrollbar {
+    width: 6px;
+  }
+  .lk-chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .lk-chat-messages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
   }
 }

@@ -4,7 +4,9 @@ import { useEffect, useRef } from "react";
 import { useChat } from "@livekit/components-react";
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/api";
+const getApiUrl = () => {
+  return process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? `http://${window.location.hostname}:3001/api` : "http://localhost:3001/api");
+};
 
 export function ChatPersister({ sessionId, participantId }: { sessionId: string, participantId: string }) {
   const { chatMessages } = useChat();
@@ -23,7 +25,7 @@ export function ChatPersister({ sessionId, participantId }: { sessionId: string,
     // It's a new message from this local user, let's persist it
     lastProcessedId.current = latestMessage.id;
 
-    axios.post(\`\${API_URL}/sessions/\${sessionId}/messages\`, {
+    axios.post(`${getApiUrl()}/sessions/${sessionId}/messages`, {
       senderId: participantId,
       senderName: latestMessage.from.name || "Unknown",
       text: latestMessage.message,
